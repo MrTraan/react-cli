@@ -49,22 +49,41 @@ const generate = (args) => {
 		case 'component': case 'c':
 			generateComponents(args.slice(1))
 			break
+		case 'form': case 'f':
+			generateForm(args[1], args.slice(2))
+			break
 		default:
 			printUsage()
 	}
 }
 
+const generateForm = (name, fields) => {
+	templates.form(name)
+	.then(data => writeComponentTemplate(name, data))
+	.then(() => log(`Form ${name} created`))
+	.catch(err => logError(err))
+}
+
 const generateComponents = (components) => {
 	components.forEach(c => {
+		templates.component(c)
+		.then(data => writeComponentTemplate(c, data))
+		.then(() => log(`Component ${c} created`))
+		.catch(err => logError(err))
+	})
+}
+
+const writeComponentTemplate = (name, data) => {
+	return new Promise((resolve, reject) => {
 		fs.writeFile(
-			`${c.toLowerCase()}.component.jsx`,
-			templates.component(c),
+			`${name.toLowerCase()}.component.jsx`,
+			data,
 			{ flag: 'wx' },
 			(err) => {
 				if (err) {
-					return handleFileWritingErr(err)
+					return reject(err)
 				}
-				log(`Component ${c} created`)
+				resolve()
 			}
 		)
 	})
