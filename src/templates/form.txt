@@ -1,0 +1,20 @@
+'use strict'
+
+const React = require('react');
+
+module.exports = class %S extends React.Component {
+
+	state = {
+	}
+
+	handleSubmit(e) {
+		e.preventDefault();
+	}
+
+	render() {
+		return (
+			<form className="%sS">
+			</form>
+		)
+	}
+}
