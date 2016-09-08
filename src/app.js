@@ -3,10 +3,10 @@
 
 const fs = require('fs')
 
-const templates = require('./templates.js');
+const templates = require('./templates.js')
 
-const log = (...args) => {console.log(...args)}
-const logError = (...args) => {console.error(...args)}
+const log = (...args) => { console.log(...args) }
+const logError = (...args) => { console.error(...args) }
 
 const handleFileWritingErr = (err) => {
 	switch (err.code) {
@@ -23,16 +23,16 @@ const main = (args) => {
 		return printUsage()
 	}
 
+	if (args.length == 3) {
+		return generateComponents([args[2]])
+	}
+
 	switch (args[2]) {
 		case 'g': case 'generate':
 			generate(args.slice(3))
 			break
 		default:
-			if (args.length == 3) {
-				generateComponents([args[2]]);
-			} else {
-				printUsage()
-			}
+			printUsage()
 	}
 }
 
@@ -62,9 +62,9 @@ const generateComponents = (components) => {
 			{ flag: 'wx' },
 			(err) => {
 				if (err) {
-					return handleFileWritingErr(err);
+					return handleFileWritingErr(err)
 				}
-				log(`Component ${c} created`);
+				log(`Component ${c} created`)
 			}
 		)
 	})
