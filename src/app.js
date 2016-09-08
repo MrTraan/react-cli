@@ -18,18 +18,18 @@ const handleFileWritingErr = (err) => {
 	}
 }
 
-const main = (args) => {
-	if (!args || args.length < 3) {
+const main = (args, flags) => {
+	if (!args || args.length < 1) {
 		return printUsage()
 	}
 
-	if (args.length == 3) {
-		return generateComponents([args[2]])
+	if (args.length == 1) {
+		return generateComponents([args[0]])
 	}
 
-	switch (args[2]) {
+	switch (args[0]) {
 		case 'g': case 'generate':
-			generate(args.slice(3))
+			generate(args.slice(1), flags)
 			break
 		default:
 			printUsage()
@@ -40,8 +40,8 @@ const printUsage = () => {
 	log('I should explain usage here')
 }
 
-const generate = (args) => {
-	if (!args || args.length < 2) {
+const generate = (args, flags) => {
+	if (!args || args.length < 1) {
 		return printUsage()
 	}
 
@@ -50,7 +50,7 @@ const generate = (args) => {
 			generateComponents(args.slice(1))
 			break
 		case 'form': case 'f':
-			generateForm(args[1], args.slice(2))
+			generateForm(args[1], flags)
 			break
 		default:
 			printUsage()
@@ -58,10 +58,10 @@ const generate = (args) => {
 }
 
 const generateForm = (name, fields) => {
-	templates.form(name)
+	templates.form(name, fields)
 	.then(data => writeComponentTemplate(name, data))
 	.then(() => log(`Form ${name} created`))
-	.catch(err => logError(err))
+	.catch(err => handleFileWritingErr(err))
 }
 
 const generateComponents = (components) => {
@@ -69,7 +69,7 @@ const generateComponents = (components) => {
 		templates.component(c)
 		.then(data => writeComponentTemplate(c, data))
 		.then(() => log(`Component ${c} created`))
-		.catch(err => logError(err))
+		.catch(err => handleFileWritingErr(err))
 	})
 }
 
@@ -89,4 +89,10 @@ const writeComponentTemplate = (name, data) => {
 	})
 }
 
-main(process.argv)
+let argv = require('minimist')(process.argv.slice(2))
+Object.keys(argv).forEach(e => {
+	if (!Array.isArray(argv[e])) {
+		argv[e] = [argv[e]]
+	}
+})
+main(argv._, argv)

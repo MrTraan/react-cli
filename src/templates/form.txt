@@ -1,19 +1,20 @@
 'use strict'
 
-const React = require('react');
+import { React } from 'react';
 
 module.exports = class %S extends React.Component {
 
-	state = {
+	state = {%defaultValues%
 	}
 
-	handleSubmit(e) {
+	handleSubmit = (e) => {
 		e.preventDefault();
-	}
+	}%handler%
 
 	render() {
 		return (
-			<form className="%sS">
+			<form className="%sS" onSubmit={this.handleSubmit}>%input%
+				<input type="submit" value="Post" />
 			</form>
 		)
 	}
