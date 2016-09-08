@@ -28,7 +28,11 @@ const main = (args) => {
 			generate(args.slice(3))
 			break
 		default:
-			printUsage()
+			if (args.length == 3) {
+				generateComponents([args[2]]);
+			} else {
+				printUsage()
+			}
 	}
 }
 
