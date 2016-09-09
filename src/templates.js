@@ -3,9 +3,9 @@
 const componentTemplate = 
 `'use strict'
 
-import { React } from 'react';
+import React from 'react';
 
-module.exports = class %S extends React.Component {
+export default class %S extends React.Component {
 
 }
 `
@@ -13,9 +13,9 @@ module.exports = class %S extends React.Component {
 const formTemplate = 
 `'use strict'
 
-import { React } from 'react';
+import React from 'react';
 
-module.exports = class %S extends React.Component {
+export default class %S extends React.Component {
 
 	state = {
 %defaultState%
