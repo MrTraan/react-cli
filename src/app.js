@@ -3,7 +3,7 @@
 
 const fs = require('fs')
 
-const templates = require('./templates.js')
+const templater = require('./templater.js')
 
 const log = (...args) => { console.log(...args) }
 const logError = (...args) => { console.error(...args) }
@@ -58,7 +58,7 @@ const generate = (args, flags) => {
 }
 
 const generateForm = (name, fields) => {
-	templates.form(name, fields)
+	templater.form(name, fields)
 	.then(data => writeComponentTemplate(name, data))
 	.then(() => log(`Form ${name} created`))
 	.catch(err => handleFileWritingErr(err))
@@ -66,7 +66,7 @@ const generateForm = (name, fields) => {
 
 const generateComponents = (components) => {
 	components.forEach(c => {
-		templates.component(c)
+		templater.component(c)
 		.then(data => writeComponentTemplate(c, data))
 		.then(() => log(`Component ${c} created`))
 		.catch(err => handleFileWritingErr(err))
