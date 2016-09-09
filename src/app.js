@@ -76,7 +76,7 @@ const generateComponents = (components) => {
 const writeComponentTemplate = (name, data) => {
 	return new Promise((resolve, reject) => {
 		fs.writeFile(
-			`${name.toLowerCase()}.component.jsx`,
+			`${name.toLowerCase()}.jsx`,
 			data,
 			{ flag: 'wx' },
 			(err) => {
